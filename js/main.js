@@ -1,28 +1,30 @@
+Vue.directive("uppercase", {
+  update: function (el) {
+      el.value = el.value.toUpperCase()
+  }
+})
+
 const vueApp = new Vue({
   el: "#vapp",
   data: {
     reportMatrix: [["Imre Géza", "n/a"]],
-  },
-  watch: {
-    email(value){
-      // binding this to the data value in the email input
-      this.email = value;
-      this.validateEmail(value);
-    }
+    orderedMatrix: []
   },
   methods: {
-    valueEntered: function (rowIndex, columnIndex) {
-      var enteredValue = this.reportMatrix[rowIndex][columnIndex];
-      var pair = this.reportMatrix[columnIndex - 1][rowIndex + 1];
-      console.log((columnIndex - 1) + " " + (rowIndex + 1));
-      if (enteredValue == "V" && pair == "V") {
-        alert("Mind a ketten nyertek?");
-        this.reportMatrix[columnIndex - 1][rowIndex + 1] = "";
+    ranking: function() {
+      this.orderedMatrix = [];
+      for (var i = 0; i < this.reportMatrix.length; i++) {
+        var value = [...this.reportMatrix[i], this.numberOfVictories(this.reportMatrix[i]), parseInt(this.ratio(i))];
+        this.orderedMatrix.push(value);
       }
-      if (enteredValue != "V" && (pair != "V" && pair != "")) {
-        alert("Senki se nyert?");
-        this.reportMatrix[columnIndex - 1][rowIndex + 1] = "";
-      }
+
+      this.orderedMatrix.sort((a, b) => {
+        victoriesRatio = b[b.length - 1] - a[a.length - 1];
+        if (victoriesRatio != 0) {
+          return victoriesRatio;
+        }
+        return b[b.length] - a[a.length];
+      });
     },
     deleteFencer: function (index) {
       if (this.reportMatrix.length == 1) {

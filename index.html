@@ -22,10 +22,9 @@
                 <th scope="col">#</th>
                 <th scope="col">Név</th>
                 <th v-for="cols, index in reportMatrix">{{ index + 1 }}.</th>
-                <th scope="col">Győzelmek</th>
-                <th scope="col">Adott tus</th>
+                <th scope="col">Gy</th>
+                <th scope="col">AT</th>
                 <th scope="col">Arány</th>
-                <th scope="col">Helyezés</th>
               </tr>
             </thead>
             <tbody>
@@ -37,19 +36,18 @@
                 <td v-for="col, index in reportMatrix[rowIndex]"
                   v-bind:class="{ black: col == 'n/a', cell: index != 0, nameCell: index == 0 }">
                   <template v-if="index == 0">
-                    <input type="text" maxlength="1" v-model="reportMatrix[rowIndex][index]" />
+                    <input type="text" v-model="reportMatrix[rowIndex][index]" />
                   </template>
                   <template v-else>
                     <template v-if="col == 'n/a'"> </template>
                     <template v-else>
-                      <input type="text" maxlength="1" v-model="reportMatrix[rowIndex][index]"ƒ />
+                      <input type="text" maxlength="1" v-model="reportMatrix[rowIndex][index]" v-uppercase/>
                     </template>
                   </template>
                 </td>
                 <td>{{ numberOfVictories(row) }}</td>
                 <td>{{ givenScore(row) }}</td>
                 <td>{{ ratio(rowIndex) }}</td>
-                <td></td>
               </tr>
               <tr>
                 <th scope="row">Kapott tus</th>
@@ -63,7 +61,20 @@
           <button class="btn btn-primary mb-5" @click="addNew()">
             Hozzáadás
           </button>
+          <button class="btn btn-primary mb-5" @click="ranking()">
+            Helyezések
+          </button>
+         
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <template v-if="orderedMatrix.length != 0">
+          <div v-for="fencer, index in orderedMatrix">
+            {{ index + 1 }}. {{ fencer[0] }}
+          </div>
+        </template>
       </div>
     </div>
   </div>
