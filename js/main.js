@@ -14,15 +14,20 @@ const vueApp = new Vue({
     ranking: function() {
       this.orderedMatrix = [];
       for (var i = 0; i < this.reportMatrix.length; i++) {
-        var value = [...this.reportMatrix[i], this.numberOfVictories(this.reportMatrix[i]), parseInt(this.ratio(i))];
+        var value = [...this.reportMatrix[i], this.numberOfVictories(this.reportMatrix[i]), parseInt(this.ratio(i)), parseInt(this.givenScore(this.reportMatrix[i]))];
         this.orderedMatrix.push(value);
       }
 
       this.orderedMatrix.sort((a, b) => {
-        victoriesRatio = b[b.length - 1] - a[a.length - 1];
+        victoriesRatio = b[b.length - 2] - a[a.length - 2];
         if (victoriesRatio != 0) {
           return victoriesRatio;
         }
+        var ratio =  b[b.length - 1] - a[a.length - 1];
+        if (ratio != 0) {
+          return ratio;
+        }
+        console.log("Ratio not null");
         return b[b.length] - a[a.length];
       });
     },
