@@ -51,7 +51,7 @@ const vueApp = new Vue({
     numberOfVictories: function (row) {
       victories = 0;
       row.forEach((col) => {
-        if (col == "V") {
+        if (col == "V" || col == "v") {
           victories = victories + 1;
         }
       });
@@ -63,7 +63,7 @@ const vueApp = new Vue({
     givenScore: function (row) {
       var score = 0;
       for (i = 1; i < row.length; i++) {
-        if (row[i] == "V") {
+        if (row[i] == "V" || row[i] == "v") {
           score += 5;
         } else if (row[i] == "n/a") {
         } else {
@@ -80,7 +80,7 @@ const vueApp = new Vue({
       var score = 0;
       for (i = 0; i < this.reportMatrix.length; i++) {
         var value = this.reportMatrix[i][index + 1];
-        if (value == "V") {
+        if (value == "V" || value == "v") {
           score += 5;
         } else if (value == "n/a") {
         } else {
