@@ -4,6 +4,9 @@
 .error {
   background-color: #ff6961;
 }
+.grey {
+  color: #7e7e7e;
+}
 .nameCell {
   max-width: 150px;
   min-width: 65px;
