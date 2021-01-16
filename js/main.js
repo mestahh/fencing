@@ -1,20 +1,40 @@
 Vue.directive("uppercase", {
   update: function (el) {
-      el.value = el.value.toUpperCase()
-  }
-})
+    el.value = el.value.toUpperCase();
+  },
+});
 
 const vueApp = new Vue({
   el: "#vapp",
   data: {
     reportMatrix: [["Imre Géza", "n/a"]],
-    orderedMatrix: []
+    orderedMatrix: [],
   },
   methods: {
-    ranking: function() {
+    validate: function (rowIndex, columnIndex) {
+      console.log(rowIndex, columnIndex);
+      var cell = this.reportMatrix[rowIndex][columnIndex];
+      var cellPair = this.reportMatrix[columnIndex - 1][rowIndex + 1];
+
+      if (columnIndex == 0) {
+        return false;
+      } else if(
+          (cell.toUpperCase() == 'V' && cellPair.toUpperCase() == 'V') ||
+          ((cell.toUpperCase() != 'V' && cell.length != 0) && (cellPair.toUpperCase() != 'V' && cellPair.length != 0)) 
+      ) {
+        return true;
+      }
+      return false;
+    },
+    ranking: function () {
       this.orderedMatrix = [];
       for (var i = 0; i < this.reportMatrix.length; i++) {
-        var value = [...this.reportMatrix[i], this.numberOfVictories(this.reportMatrix[i]), parseInt(this.ratio(i)), parseInt(this.givenScore(this.reportMatrix[i]))];
+        var value = [
+          ...this.reportMatrix[i],
+          this.numberOfVictories(this.reportMatrix[i]),
+          parseInt(this.ratio(i)),
+          parseInt(this.givenScore(this.reportMatrix[i])),
+        ];
         this.orderedMatrix.push(value);
       }
 
@@ -23,7 +43,7 @@ const vueApp = new Vue({
         if (victoriesRatio != 0) {
           return victoriesRatio;
         }
-        var ratio =  b[b.length - 1] - a[a.length - 1];
+        var ratio = b[b.length - 1] - a[a.length - 1];
         if (ratio != 0) {
           return ratio;
         }
