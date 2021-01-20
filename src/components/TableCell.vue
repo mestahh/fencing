@@ -7,6 +7,7 @@
         maxlength="1"
         v-model="value"
         v-uppercase
+        v-bind:class="{ error: validate(row, col) }"
       />
     </template>
   </div>
@@ -25,6 +26,25 @@ export default {
       },
     },
   },
+  methods: {
+    validate: function (rowIndex, columnIndex) {
+      var cell = this.$store.state.reportMatrix[rowIndex][columnIndex];
+      var cellPair = this.$store.state.reportMatrix[columnIndex - 1][rowIndex + 1];
+
+      if (columnIndex == 0) {
+        return false;
+      } else if (
+        (cell.toUpperCase() == "V" && cellPair.toUpperCase() == "V") ||
+        (cell.toUpperCase() != "V" &&
+          cell.length != 0 &&
+          cellPair.toUpperCase() != "V" &&
+          cellPair.length != 0)
+      ) {
+        return true;
+      }
+      return false;
+    }
+  }
 };
 </script>
 
@@ -36,5 +56,9 @@ input {
   margin: 0px;
   border: 0px;
   height: 50px;
+}
+
+.error {
+  background-color: rgb(227, 117, 117);
 }
 </style>
