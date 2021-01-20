@@ -1,17 +1,30 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    
+    <div class="container">
+        <ReportTable></ReportTable>
+        <button @click="addNew()">Add</button>
+        <button @click="deleteRow(1)">Delete</button>
+        
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ReportTable from './components/ReportTable.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    ReportTable
+  }, 
+  methods: {
+    addNew: function() {
+      this.$store.dispatch('addNew');
+      console.log(this.$store.state.reportMatrix);
+      
+    },
+    deleteRow: function(index) {
+      this.$store.dispatch('delete', index);
+    }
   }
 }
 </script>
