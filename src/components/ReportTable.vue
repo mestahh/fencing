@@ -38,10 +38,9 @@
                   <TableCell :row="rowIndex" :col="index"></TableCell>
                 </template>
               </td>
-              <td>{{ numberOfVictories(row) }}</td>
-              <td>{{ givenScore(row) }}</td>
+              <td>{{ numberOfVictories(rowIndex) }}</td>
+              <td>{{ givenScore(rowIndex) }}</td>
               <td>{{ ratio(rowIndex) }}</td>
-              <td>0</td>
             </tr>
             <tr>
               <th scope="row">Kapott tus</th>
@@ -52,8 +51,6 @@
             </tr>
           </tbody>
         </table>
-        <!-- <button class="btn btn-primary mb-5" @click="addNew()">Hozzáadás</button>
-        <button class="btn btn-primary mb-5" @click="ranking()">Helyezések</button> -->
       </div>
     </div>
   </div>
@@ -75,60 +72,17 @@ export default {
     deleteFencer: function (row) {
       this.$store.dispatch("delete", row);
     },
-    numberOfVictories: function (row) {
-      var victories = 0;
-      row.forEach((col) => {
-        if (col == "V" || col == "v") {
-          victories = victories + 1;
-        }
-      });
-      if (isNaN(victories)) {
-        victories = 0;
-      }
-      return victories;
+    numberOfVictories: function(rowIndex) {
+        return this.$store.getters.numberOfVictories(rowIndex);
     },
-    givenScore: function (row) {
-      var score = 0;
-      for (var i = 1; i < row.length; i++) {
-        if (row[i] == "V" || row[i] == "v") {
-          score += 5;
-        } else if (row[i] == "n/a" || row[i] === "") {
-          // don't do anything
-        } else {
-          score += parseInt(row[i]);
-        }
-      }
-
-      if (isNaN(score)) {
-        score = 0;
-      }
-      return score;
-    },
+    givenScore: function (rowIndex) {
+        return this.$store.getters.givenScore(rowIndex);
+    },  
     receivedScore: function (index) {
-      var score = 0;
-      for (var i = 0; i < this.$store.state.reportMatrix.length; i++) {
-        var value = this.$store.state.reportMatrix[i][index + 1];
-        if (value == "V" || value == "v") {
-          score += 5;
-        } else if (value == "n/a" || value === "") {
-          // don't do anything
-        } else {
-          score += parseInt(value);
-        }
-      }
-      if (isNaN(score)) {
-        score = 0;
-      }
-      return score;
+      return this.$store.getters.receivedScore(index);
     },
     ratio: function (rowIndex) {
-      var ratio =
-        this.givenScore(this.$store.state.reportMatrix[rowIndex]) -
-        this.receivedScore(rowIndex);
-      if (ratio > 0) {
-        return "+" + ratio;
-      }
-      return ratio;
+     return this.$store.getters.ratio(rowIndex);
     },
   },
 };
