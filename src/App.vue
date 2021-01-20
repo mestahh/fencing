@@ -1,9 +1,12 @@
 <template>
   <div class="container">
-    {{ this.$store.state.reportMatrix }}
     <ReportTable></ReportTable>
-    <button @click="addNew()">Add</button>
+    <div class="row">
+      <div class="col mt-2">
+        <button class="btn btn-primary mb-5 mr-2" @click="addNew()">Hozzáadás</button>
     <button class="btn btn-primary mb-5" @click="ranking()">Helyezések</button> 
+      </div>
+    </div>
     <div class="row">
       <div class="col">
         <template v-if="orderedMatrix.length != 0">
