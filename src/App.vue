@@ -1,6 +1,7 @@
 <template>
     
     <div class="container">
+      {{ this.$store.state.reportMatrix }}
         <ReportTable></ReportTable>
         <button @click="addNew()">Add</button>
         <button @click="deleteRow(1)">Delete</button>

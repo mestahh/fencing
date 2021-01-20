@@ -102,7 +102,6 @@ const store = new Vuex.Store({
   },
   mutations: {
     addNew(state) {
-      var numberOfFencers = state.reportMatrix.length;
       state.reportMatrix.forEach((f) => {
         f.push("");
       });
