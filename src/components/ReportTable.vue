@@ -93,7 +93,7 @@ export default {
       for (var i = 1; i < row.length; i++) {
         if (row[i] == "V" || row[i] == "v") {
           score += 5;
-        } else if (row[i] == "n/a") {
+        } else if (row[i] == "n/a" || row[i] === '') {
           // don't do anything
         } else {
           score += parseInt(row[i]);
@@ -111,7 +111,7 @@ export default {
         var value = this.$store.state.reportMatrix[i][index + 1];
         if (value == "V" || value == "v") {
           score += 5;
-        } else if (value == "n/a") {
+        } else if (value == "n/a" || value === '') {
           // don't do anything
         } else {
           score += parseInt(value);
