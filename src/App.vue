@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col mt-2">
         <button class="btn btn-primary mb-5 mr-2" @click="addNew()">Hozzáadás</button>
-    <button class="btn btn-primary mb-5" @click="ranking()">Helyezések</button> 
+        <button class="btn btn-primary mb-5" @click="ranking()">Helyezések</button>
       </div>
     </div>
     <div class="row">
@@ -54,10 +54,10 @@ export default {
     deleteRow: function (index) {
       this.$store.dispatch("delete", index);
     },
-    ranking: function() {
+    ranking: function () {
       this.orderedMatrix = this.$store.getters.ranking;
       console.log(this.orderedMatrix);
-    }
+    },
   },
 };
 </script>
