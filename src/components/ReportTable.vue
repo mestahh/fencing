@@ -35,22 +35,7 @@
                   <input type="text" v-model="reportMatrix[rowIndex][index]" />
                 </template>
                 <template v-else>
-                  <template v-if="col == 'n/a'"> </template>
-                  <template v-else>
-                    <!-- <input
-                        type="text"
-                        maxlength="1"
-                        v-bind:class="{ error: validate(rowIndex, index) }"
-                        v-model="reportMatrix[rowIndex][index]"
-                        v-uppercase
-                      /> -->
-                    <input
-                      type="text"
-                      maxlength="1"
-                      v-model="reportMatrix[rowIndex][index]"
-                      v-uppercase
-                    />
-                  </template>
+                  <TableCell :row="rowIndex" :col="index"></TableCell>
                 </template>
               </td>
               <td>{{ numberOfVictories(row) }}</td>
@@ -68,14 +53,20 @@
           </tbody>
         </table>
         <!-- <button class="btn btn-primary mb-5" @click="addNew()">Hozzáadás</button>
-          <button class="btn btn-primary mb-5" @click="ranking()">Helyezések</button> -->
+        <button class="btn btn-primary mb-5" @click="ranking()">Helyezések</button> -->
       </div>
     </div>
+    <TableCell :row="0" :col="0"></TableCell>
   </div>
 </template>
 
 <script>
+import TableCell from "./TableCell.vue";
+
 export default {
+  components: {
+    TableCell,
+  },
   computed: {
     reportMatrix: function () {
       return this.$store.state.reportMatrix;
@@ -143,3 +134,37 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.nameCell {
+  max-width: 150px;
+  min-width: 65px;
+  width: 150px;
+  padding: 0px !important;
+  height: 50px;
+}
+.cell {
+  max-width: 65px;
+  min-width: 65px;
+  width: 65px;
+  padding: 0px !important;
+  height: 50px;
+}
+
+.black {
+  background-color: black;
+}
+
+td {
+  border-right: 1px solid #eeeeee;
+  border-left: 1px solid #eeeeee;
+}
+
+input {
+  max-width: 100%;
+  padding: 25px;
+  margin: 0px;
+  border: 0px;
+  height: 50px;
+}
+</style>

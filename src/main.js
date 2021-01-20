@@ -122,6 +122,13 @@ const store = new Vuex.Store({
         f.splice(index + 1, 1);
       });
     },
+    updateCell(state, payload) {
+      var row = state.reportMatrix[payload.row];
+      row[payload.col] = payload.value;
+      Vue.set(state.reportMatrix, payload.row, row);
+      
+      console.log(state.reportMatrix);
+    }
   },
   actions: {
     addNew(context) {
@@ -130,6 +137,9 @@ const store = new Vuex.Store({
     delete(context, payload) {
       context.commit("delete", payload);
     },
+    updateCell(context, payload) {
+      context.commit('updateCell', payload);
+    }
   },
 });
 
