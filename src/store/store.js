@@ -15,7 +15,4 @@ export const store = new Vuex.Store({
   actions
 });
 
-function randomName() {
-  var randomNumber = Math.floor(Math.random() * (names.length - 1) + 1);
-  return names[randomNumber];
-}
+
