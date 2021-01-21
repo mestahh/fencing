@@ -27,7 +27,7 @@ export default {
   numberOfVictories: (state) => (rowIndex) => {
     var victories = 0;
     state.reportMatrix[rowIndex].forEach((col) => {
-      if (col == "V" || col == "v") {
+      if (col.toUpperCase().includes("V")) {
         victories = victories + 1;
       }
     });
@@ -40,8 +40,14 @@ export default {
     var score = 0;
     var row = state.reportMatrix[rowIndex];
     for (var i = 1; i < row.length; i++) {
-      if (row[i] == "V" || row[i] == "v") {
-        score += 5;
+      const cellValue = row[i].toUpperCase();
+      if (cellValue.includes("V")) {
+        if (cellValue == "V") {
+          score += 5;
+        } else {
+          var winScore = cellValue.replace("V", "");
+          score += parseInt(winScore);
+        }
       } else if (row[i] == "n/a" || row[i] === "") {
         // don't do anything
       } else {
@@ -57,10 +63,15 @@ export default {
   receivedScore: (state) => (index) => {
     var score = 0;
     for (var i = 0; i < state.reportMatrix.length; i++) {
-      var value = state.reportMatrix[i][index + 1];
-      if (value == "V" || value == "v") {
-        score += 5;
-      } else if (value == "n/a" || value === "") {
+      var value = state.reportMatrix[i][index + 1].toUpperCase();
+      if (value.includes("V")) {
+        if (value == "V") {
+            score += 5;
+          } else {
+            var winScore = value.replace("V", "");
+            score += parseInt(winScore);
+          }
+      } else if (value == "N/A" || value === "") {
         // don't do anything
       } else {
         score += parseInt(value);

@@ -49,14 +49,12 @@ export default {
   methods: {
     addNew: function () {
       this.$store.dispatch("addNew");
-      console.log(this.$store.state.reportMatrix);
     },
     deleteRow: function (index) {
       this.$store.dispatch("delete", index);
     },
     ranking: function () {
       this.orderedMatrix = this.$store.getters.ranking;
-      console.log(this.orderedMatrix);
     },
   },
 };

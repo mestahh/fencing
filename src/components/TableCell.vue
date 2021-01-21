@@ -4,7 +4,7 @@
     <template v-else>
       <input
         type="text"
-        maxlength="1"
+        maxlength="2"
         v-model="value"
         v-uppercase
         v-bind:class="{ error: validate(row, col) }"
@@ -28,16 +28,16 @@ export default {
   },
   methods: {
     validate: function (rowIndex, columnIndex) {
-      var cell = this.$store.state.reportMatrix[rowIndex][columnIndex];
-      var cellPair = this.$store.state.reportMatrix[columnIndex - 1][rowIndex + 1];
+      var cell = this.$store.state.reportMatrix[rowIndex][columnIndex].toUpperCase();
+      var cellPair = this.$store.state.reportMatrix[columnIndex - 1][rowIndex + 1].toUpperCase();
 
       if (columnIndex == 0) {
         return false;
       } else if (
-        (cell.toUpperCase() == "V" && cellPair.toUpperCase() == "V") ||
-        (cell.toUpperCase() != "V" &&
+        (cell.includes("V") && cellPair.includes("V")) ||
+        (!cell.includes("V") &&
           cell.length != 0 &&
-          cellPair.toUpperCase() != "V" &&
+          !cellPair.includes("V") &&
           cellPair.length != 0)
       ) {
         return true;
