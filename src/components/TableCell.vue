@@ -56,6 +56,7 @@ input {
   margin: 0px;
   border: 0px;
   height: 50px;
+  background-color: inherit;
 }
 
 .error {

@@ -3,8 +3,8 @@
     <div class="col">
       <h1 class="text-center">Jegyzőkönyv</h1>
       <div class="table-responsive">
-        <table class="table caption-top mt-5">
-          <thead>
+        <table class="table caption-top mt-5 table-striped table-bordered table-hover">
+          <thead class="thead-dark">
             <tr>
               <th scope="col">#</th>
               <th scope="col">Név</th>
@@ -15,7 +15,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(row, rowIndex) in reportMatrix" :key="rowIndex">
+            <tr
+              v-for="(row, rowIndex) in reportMatrix"
+              :key="rowIndex"
+            >
               <th scope="row">
                 {{ rowIndex + 1 }}
                 <a href="#" @click="deleteFencer(rowIndex)"
@@ -42,7 +45,7 @@
               <td>{{ givenScore(rowIndex) }}</td>
               <td>{{ ratio(rowIndex) }}</td>
             </tr>
-            <tr>
+            <tr style="background-color: white !important;">
               <th scope="row">Kapott tus</th>
               <td>#</td>
               <td v-for="(row, rowIndex) in reportMatrix" :key="rowIndex">
@@ -72,23 +75,27 @@ export default {
     deleteFencer: function (row) {
       this.$store.dispatch("delete", row);
     },
-    numberOfVictories: function(rowIndex) {
-        return this.$store.getters.numberOfVictories(rowIndex);
+    numberOfVictories: function (rowIndex) {
+      return this.$store.getters.numberOfVictories(rowIndex);
     },
     givenScore: function (rowIndex) {
-        return this.$store.getters.givenScore(rowIndex);
-    },  
+      return this.$store.getters.givenScore(rowIndex);
+    },
     receivedScore: function (index) {
       return this.$store.getters.receivedScore(index);
     },
     ratio: function (rowIndex) {
-     return this.$store.getters.ratio(rowIndex);
+      return this.$store.getters.ratio(rowIndex);
     },
   },
 };
 </script>
 
 <style scoped>
+.greyBackground {
+  background-color: rgb(238, 238, 238);
+}
+
 .nameCell {
   max-width: 150px;
   min-width: 65px;
@@ -96,6 +103,7 @@ export default {
   padding: 0px !important;
   height: 50px;
 }
+
 .cell {
   max-width: 75px;
   min-width: 75px;
@@ -108,12 +116,8 @@ export default {
   background-color: black;
 }
 
-td {
-  border-right: 1px solid #eeeeee;
-  border-left: 1px solid #eeeeee;
-}
-
 input {
+  background-color: inherit;
   max-width: 100%;
   padding: 25px;
   margin: 0px;
