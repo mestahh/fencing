@@ -43,6 +43,17 @@
         </p>
       </div>
     </div>
+    <div class="row">
+      <div class="col">
+        <template v-if="isAuthenticated()">
+          <a href="#" @click="logout()">Logout</a>
+        </template>
+        <template v-else>
+          <a href="#" @click="login()">Login</a>
+        </template>
+      </div>
+    </div>
+    {{ this.$store.state }}
   </div>
 </template>
 
@@ -105,6 +116,18 @@ export default {
               "&victoryScore=" +
               this.$store.state.victoryScore)
         );
+    },
+    login: function () {
+      this.$store.dispatch("login").then((response) => {
+        console.log(response);
+      });
+    },
+    logout: function () {
+      this.$store.dispatch("logout");
+    },
+    isAuthenticated: function () {
+      console.log(this.$store.getters.authenticated);
+      return this.$store.getters.authenticated;
     },
     addNew: function () {
       this.$store.dispatch("addNew");

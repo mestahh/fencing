@@ -1,5 +1,5 @@
 import { names } from "./random_names.js";
-import Vue from 'vue';
+import Vue from "vue";
 
 export default {
   addNew(state) {
@@ -33,10 +33,18 @@ export default {
   },
   updateReportMatrix(state, payload) {
     state.reportMatrix = payload;
-  }
+  },
+  login(state) {
+    state.authenticated = true;
+    console.log("login");
+  },
+  logout(state) {
+    state.authenticated = false;
+    console.log("logout");
+  },
 };
 
 function randomName() {
-    var randomNumber = Math.floor(Math.random() * (names.length - 1) + 1);
-    return names[randomNumber];
-  }
+  var randomNumber = Math.floor(Math.random() * (names.length - 1) + 1);
+  return names[randomNumber];
+}

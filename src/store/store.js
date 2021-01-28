@@ -9,7 +9,8 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     reportMatrix: [["Imre Géza", "n/a"]],
-    victoryScore: 5
+    victoryScore: 5,
+    authenticated: false
   },
   getters, 
   mutations,
