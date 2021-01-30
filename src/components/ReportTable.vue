@@ -41,7 +41,7 @@
                   <TableCell :row="rowIndex" :col="index"></TableCell>
                 </template>
               </td>
-              <td>{{ numberOfVictories(rowIndex) }}</td>
+              <td class="green">{{ numberOfVictories(rowIndex) }}</td>
               <td>{{ givenScore(rowIndex) }}</td>
               <td>{{ ratio(rowIndex) }}</td>
             </tr>
@@ -92,6 +92,9 @@ export default {
 </script>
 
 <style scoped>
+.green {
+  background-color: rgb(140, 221, 140);
+}
 .greyBackground {
   background-color: rgb(238, 238, 238);
 }

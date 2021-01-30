@@ -15,15 +15,15 @@ export default {
     }
 
     orderedMatrix.sort((a, b) => {
-      var victoriesRatio = b[b.length - 2] - a[a.length - 2];
+      var victoriesRatio = b[b.length - 3] - a[a.length - 3];
       if (victoriesRatio != 0) {
         return victoriesRatio;
       }
-      var ratio = b[b.length - 1] - a[a.length - 1];
+      var ratio = b[b.length - 2] - a[a.length - 2];
       if (ratio != 0) {
         return ratio;
       }
-      return b[b.length] - a[a.length];
+      return b[b.length - 1] - a[a.length - 1];
     });
     return orderedMatrix;
   },
@@ -69,11 +69,11 @@ export default {
       var value = state.reportMatrix[i][index + 1].toUpperCase();
       if (value.includes("V")) {
         if (value == "V") {
-            score += state.victoryScore;
-          } else {
-            var winScore = value.replace("V", "");
-            score += parseInt(winScore);
-          }
+          score += state.victoryScore;
+        } else {
+          var winScore = value.replace("V", "");
+          score += parseInt(winScore);
+        }
       } else if (value == "N/A" || value === "") {
         // don't do anything
       } else {
