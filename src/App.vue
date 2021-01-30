@@ -8,6 +8,14 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-2">
+        Győzelem pontszáma:
+      </div>
+      <div class="col-2">
+        <input class="form-control" type="number" name="victoryScore" v-model="victoryScore" />
+      </div>
+    </div>
+    <div class="row">
       <div class="col">
         <template v-if="orderedMatrix.length != 0">
           <div v-for="(fencer, index) in orderedMatrix" v-bind:key="index">
@@ -45,6 +53,20 @@ export default {
     return {
       orderedMatrix: [],
     };
+  },
+  computed: {
+    victoryScore: {
+      get() {
+        var score = this.$store.getters.victoryScore;
+        if (isNaN(score)) {
+          return '';
+        }
+        return score;
+      },
+      set(value) {
+        this.$store.dispatch("updateVictoryScore", value);
+      },
+    },
   },
   methods: {
     addNew: function () {

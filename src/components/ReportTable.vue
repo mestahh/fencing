@@ -105,9 +105,9 @@ export default {
 }
 
 .cell {
-  max-width: 75px;
-  min-width: 75px;
-  width: 75px;
+  max-width: 85px;
+  min-width: 85px;
+  width: 85px;
   padding: 0px !important;
   height: 50px;
 }

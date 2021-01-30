@@ -8,4 +8,7 @@ export default {
   updateCell(context, payload) {
     context.commit("updateCell", payload);
   },
+  updateVictoryScore(context, payload) {
+    context.commit('updateVictoryScore', payload);
+  }
 };

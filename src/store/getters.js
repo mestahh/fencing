@@ -1,4 +1,7 @@
 export default {
+  victoryScore: (state) => {
+    return state.victoryScore;
+  },
   ranking: (state, getters) => {
     var orderedMatrix = [];
     for (var i = 0; i < state.reportMatrix.length; i++) {
@@ -43,7 +46,7 @@ export default {
       const cellValue = row[i].toUpperCase();
       if (cellValue.includes("V")) {
         if (cellValue == "V") {
-          score += 5;
+          score += state.victoryScore;
         } else {
           var winScore = cellValue.replace("V", "");
           score += parseInt(winScore);
@@ -66,7 +69,7 @@ export default {
       var value = state.reportMatrix[i][index + 1].toUpperCase();
       if (value.includes("V")) {
         if (value == "V") {
-            score += 5;
+            score += state.victoryScore;
           } else {
             var winScore = value.replace("V", "");
             score += parseInt(winScore);

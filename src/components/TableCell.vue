@@ -4,7 +4,7 @@
     <template v-else>
       <input
         type="text"
-        maxlength="2"
+        maxlength="3"
         v-model="value"
         v-uppercase
         v-bind:class="{ error: validate(row, col) }"

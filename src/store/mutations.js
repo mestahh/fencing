@@ -28,6 +28,9 @@ export default {
     row[payload.col] = payload.value;
     Vue.set(state.reportMatrix, payload.row, row);
   },
+  updateVictoryScore(state, payload) {
+    state.victoryScore = parseInt(payload);
+  }
 };
 
 function randomName() {
