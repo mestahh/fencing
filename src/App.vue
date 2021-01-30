@@ -65,9 +65,15 @@ export default {
     let params = new URLSearchParams(uri);
     var matrix = params.get("matrix");
     var victoryScore = params.get("victoryScore");
-    codec.decompress(matrix).then((json) => {
-      this.$store.dispatch("updateReportMatrix", json);
-    });
+    console.log(victoryScore);
+    if (victoryScore == null) {
+      victoryScore = 5;
+    }
+    if (matrix) {
+      codec.decompress(matrix).then((json) => {
+        this.$store.dispatch("updateReportMatrix", json);
+      });
+    }
     this.$store.dispatch("updateVictoryScore", victoryScore);
   },
   computed: {
@@ -91,7 +97,14 @@ export default {
     generateLink: function () {
       codec
         .compress(this.$store.state.reportMatrix)
-        .then((result) => (this.link = "http://fencing.mestahh.net?matrix=" + result + '&victoryScore=' + this.$store.state.victoryScore));
+        .then(
+          (result) =>
+            (this.link =
+              "http://fencing.mestahh.net?matrix=" +
+              result +
+              "&victoryScore=" +
+              this.$store.state.victoryScore)
+        );
     },
     addNew: function () {
       this.$store.dispatch("addNew");
