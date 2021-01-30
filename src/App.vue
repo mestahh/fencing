@@ -11,7 +11,11 @@
     </div>
     <div class="row mb-3">
       <div class="col">
-        <template v-if="link"><a :href="link" target="_blank">Ide kattintva megoszthatod a jegyzőkönyvet!</a></template>
+        <template v-if="link"
+          ><a :href="link" target="_blank"
+            >Ide kattintva megoszthatod a jegyzőkönyvet!</a
+          ></template
+        >
       </div>
     </div>
     <div class="row">
@@ -60,9 +64,11 @@ export default {
     let uri = window.location.search.substring(1);
     let params = new URLSearchParams(uri);
     var matrix = params.get("matrix");
+    var victoryScore = params.get("victoryScore");
     codec.decompress(matrix).then((json) => {
       this.$store.dispatch("updateReportMatrix", json);
     });
+    this.$store.dispatch("updateVictoryScore", victoryScore);
   },
   computed: {
     victoryScore: {
@@ -85,7 +91,7 @@ export default {
     generateLink: function () {
       codec
         .compress(this.$store.state.reportMatrix)
-        .then((result) => (this.link = "http://fencing.mestahh.net?matrix=" + result));
+        .then((result) => (this.link = "http://fencing.mestahh.net?matrix=" + result + '&victoryScore=' + this.$store.state.victoryScore));
     },
     addNew: function () {
       this.$store.dispatch("addNew");
