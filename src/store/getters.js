@@ -29,8 +29,8 @@ export default {
   },
   numberOfVictories: (state) => (rowIndex) => {
     var victories = 0;
-    state.reportMatrix[rowIndex].forEach((col) => {
-      if (col.toUpperCase().includes("V")) {
+    state.reportMatrix[rowIndex].forEach((col, i) => {
+      if (col.toUpperCase().includes("V") && i != 0) {
         victories = victories + 1;
       }
     });
