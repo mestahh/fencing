@@ -4,14 +4,25 @@
     <div class="row">
       <div class="col mt-2">
         <button class="btn btn-primary mb-5 mr-2" @click="addNew()">Hozzáadás</button>
+        <button class="btn btn-primary mb-5 mr-2" @click="generateLink()">
+          Link generálása
+        </button>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <template v-if="link"><a :href="link" target="_blank">Ide kattintva megoszthatod a jegyzőkönyvet!</a></template>
       </div>
     </div>
     <div class="row">
+      <div class="col-2">Győzelem pontszáma:</div>
       <div class="col-2">
-        Győzelem pontszáma:
-      </div>
-      <div class="col-2">
-        <input class="form-control" type="number" name="victoryScore" v-model="victoryScore" />
+        <input
+          class="form-control"
+          type="number"
+          name="victoryScore"
+          v-model="victoryScore"
+        />
       </div>
     </div>
     <div class="row">
@@ -33,18 +44,32 @@
 
 <script>
 import ReportTable from "./components/ReportTable.vue";
+var codec = require("json-url")("lzw");
 
 export default {
   name: "App",
   components: {
     ReportTable,
   },
+  data: function () {
+    return {
+      link: "",
+    };
+  },
+  created: function () {
+    let uri = window.location.search.substring(1);
+    let params = new URLSearchParams(uri);
+    var matrix = params.get("matrix");
+    codec.decompress(matrix).then((json) => {
+      this.$store.dispatch("updateReportMatrix", json);
+    });
+  },
   computed: {
     victoryScore: {
       get() {
         var score = this.$store.getters.victoryScore;
         if (isNaN(score)) {
-          return '';
+          return "";
         }
         return score;
       },
@@ -52,17 +77,22 @@ export default {
         this.$store.dispatch("updateVictoryScore", value);
       },
     },
-    orderedMatrix: function() {
+    orderedMatrix: function () {
       return this.$store.getters.orderedMatrix;
-    }
+    },
   },
   methods: {
+    generateLink: function () {
+      codec
+        .compress(this.$store.state.reportMatrix)
+        .then((result) => (this.link = "http://fencing.mestahh.net?matrix=" + result));
+    },
     addNew: function () {
       this.$store.dispatch("addNew");
     },
     deleteRow: function (index) {
       this.$store.dispatch("delete", index);
-    }
+    },
   },
 };
 </script>

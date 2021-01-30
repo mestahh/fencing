@@ -30,6 +30,9 @@ export default {
   },
   updateVictoryScore(state, payload) {
     state.victoryScore = parseInt(payload);
+  },
+  updateReportMatrix(state, payload) {
+    state.reportMatrix = payload;
   }
 };
 

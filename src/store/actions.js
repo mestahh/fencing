@@ -10,5 +10,8 @@ export default {
   },
   updateVictoryScore(context, payload) {
     context.commit('updateVictoryScore', payload);
+  },
+  updateReportMatrix(context, payload) {
+    context.commit('updateReportMatrix', payload);
   }
 };
