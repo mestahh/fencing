@@ -1,8 +1,5 @@
 export default {
-  victoryScore: (state) => {
-    return state.victoryScore;
-  },
-  ranking: (state, getters) => {
+  ranking: (state, getters) => (row) => {
     var orderedMatrix = [];
     for (var i = 0; i < state.reportMatrix.length; i++) {
       var value = [
@@ -25,7 +22,18 @@ export default {
       }
       return b[b.length - 1] - a[a.length - 1];
     });
-    return orderedMatrix;
+    for (var j = 0; j < orderedMatrix.length; j++) {
+      if (orderedMatrix[j][0] == row[0]) {
+        return j + 1;
+      }
+    }
+    return "";
+  },
+  victoryScore: (state) => {
+    return state.victoryScore;
+  },
+  orderedMatrix: (state) => {
+    return state.orderedMatrix;
   },
   numberOfVictories: (state) => (rowIndex) => {
     var victories = 0;

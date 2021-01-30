@@ -6,12 +6,13 @@
         <table class="table caption-top mt-5 table-striped table-bordered table-hover">
           <thead class="thead-dark">
             <tr>
-              <th scope="col">#</th>
+              <th scope="col" style="max-width: 65px; width: 65px">#</th>
               <th scope="col">Név</th>
               <th v-for="(cols, index) in reportMatrix" :key="index">{{ index + 1 }}.</th>
               <th scope="col">Gy</th>
               <th scope="col">AT</th>
               <th scope="col">Arány</th>
+              <th scope="col">Helyezés</th>
             </tr>
           </thead>
           <tbody>
@@ -41,9 +42,10 @@
                   <TableCell :row="rowIndex" :col="index"></TableCell>
                 </template>
               </td>
-              <td class="green">{{ numberOfVictories(rowIndex) }}</td>
+              <td class="greenBackground">{{ numberOfVictories(rowIndex) }}</td>
               <td>{{ givenScore(rowIndex) }}</td>
               <td>{{ ratio(rowIndex) }}</td>
+              <td class="blueBackground">{{ ranking(row) }}</td>
             </tr>
             <tr style="background-color: white !important;">
               <th scope="row">Kapott tus</th>
@@ -72,6 +74,9 @@ export default {
     },
   },
   methods: {
+    ranking: function(row) {
+      return this.$store.getters.ranking(row);
+    },
     deleteFencer: function (row) {
       this.$store.dispatch("delete", row);
     },
@@ -92,7 +97,10 @@ export default {
 </script>
 
 <style scoped>
-.green {
+.blueBackground {
+  background-color: rgb(149, 216, 243);
+}
+.greenBackground {
   background-color: rgb(140, 221, 140);
 }
 .greyBackground {
