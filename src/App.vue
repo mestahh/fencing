@@ -1,5 +1,36 @@
 <template>
   <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Jegyzőkönyv</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active" v-if="isAuthenticated()">
+            <a class="nav-link" href="#">Archív <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+         <v-facebook-login
+          app-id="221959249617433"
+          @login="login()"
+          @logout="logout()"
+          v-model="model"
+        >
+          <span slot="login">Belépés a Facebookkal</span>
+          <span slot="logout">Kilépés</span>
+        </v-facebook-login>
+      </div>
+    </nav>
     <ReportTable></ReportTable>
     <div class="row">
       <div class="col mt-2">
@@ -43,31 +74,26 @@
         </p>
       </div>
     </div>
-    <div class="row">
-      <div class="col">
-        <template v-if="isAuthenticated()">
-          <a href="#" @click="logout()">Logout</a>
-        </template>
-        <template v-else>
-          <a href="#" @click="login()">Login</a>
-        </template>
-      </div>
-    </div>
-    {{ this.$store.state }}
+    {{ model }}
   </div>
 </template>
 
 <script>
 import ReportTable from "./components/ReportTable.vue";
+
+import VFacebookLogin from "vue-facebook-login-component";
+
 var codec = require("json-url")("lzw");
 
 export default {
   name: "App",
   components: {
     ReportTable,
+    VFacebookLogin,
   },
   data: function () {
     return {
+      model: {},
       link: "",
     };
   },
@@ -118,9 +144,7 @@ export default {
         );
     },
     login: function () {
-      this.$store.dispatch("login").then((response) => {
-        console.log(response);
-      });
+      this.$store.dispatch("login");
     },
     logout: function () {
       this.$store.dispatch("logout");
@@ -134,7 +158,7 @@ export default {
     },
     deleteRow: function (index) {
       this.$store.dispatch("delete", index);
-    },
+    }
   },
 };
 </script>

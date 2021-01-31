@@ -2,7 +2,7 @@ export default {
   authenticated: (state) => {
     return state.authenticated;
   },
-  ranking: (state, getters) => {
+  ranking: (state, getters) => (row) => {
     var orderedMatrix = [];
     for (var i = 0; i < state.reportMatrix.length; i++) {
       var value = [

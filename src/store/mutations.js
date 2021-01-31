@@ -36,11 +36,9 @@ export default {
   },
   login(state) {
     state.authenticated = true;
-    console.log("login");
   },
   logout(state) {
     state.authenticated = false;
-    console.log("logout");
   },
 };
 

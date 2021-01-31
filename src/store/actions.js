@@ -15,14 +15,12 @@ export default {
     context.commit("updateReportMatrix", payload);
   },
   login(context) {
-    console.log("logging in");
     return new Promise((resolve) => {
       context.commit("login");
       resolve();
     });
   },
   logout(context) {
-    console.log("logging out");
     return new Promise((resolve) => {
       context.commit("logout");
       resolve();
