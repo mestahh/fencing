@@ -22,7 +22,7 @@
         </ul>
          <v-facebook-login
           app-id="221959249617433"
-          @login="login()"
+          @login="login($event)"
           @logout="logout()"
           v-model="model"
         >
@@ -112,6 +112,7 @@ export default {
       });
     }
     this.$store.dispatch("updateVictoryScore", victoryScore);
+    
   },
   computed: {
     victoryScore: {
@@ -143,7 +144,8 @@ export default {
               this.$store.state.victoryScore)
         );
     },
-    login: function () {
+    login: function (event) {
+      console.log(event);
       this.$store.dispatch("login");
     },
     logout: function () {
