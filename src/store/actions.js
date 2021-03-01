@@ -40,11 +40,11 @@ export default {
     } else {
       newTableKey = getters.tableId;
     }
-
+    var userId = firebase.auth().currentUser.email;
     var updates = {};
     updates["/tables/" + newTableKey] = {
       reportMatrix: getters.reportMatrix,
-      userid: "abcdef",
+      userid: userId,
       createdAt: "2021-03-01T19:03:03",
       name: "Mikulás kupa",
     };
