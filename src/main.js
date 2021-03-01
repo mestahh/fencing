@@ -1,7 +1,10 @@
 import Vue from "vue";
 import App from "./App.vue";
+import MainPage from "./components/MainPage.vue";
+import SavedTables from "./components/SavedTables.vue";
 import { store } from './store/store.js';
-import firebase from 'firebase/app';
+import firebase from 'firebase';
+import VueRouter from 'vue-router';
 
 let config = {
   apiKey: "AIzaSyBkDE0ql4QIKnt8oNXo9ugDGSA8SZrQusw",
@@ -15,6 +18,15 @@ let config = {
 
 firebase.initializeApp(config);
 
+const router = new VueRouter({
+  mode: 'history',
+  routes: [
+    { path: "", component: MainPage },
+    { path: "/tables", component: SavedTables }
+  ]
+});
+
+Vue.use(VueRouter);
 Vue.config.productionTip = false;
 Vue.directive("uppercase", {
   update: function(el) {
@@ -25,4 +37,5 @@ Vue.directive("uppercase", {
 new Vue({
   store: store,
   render: (h) => h(App),
+  router
 }).$mount("#app");
