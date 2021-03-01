@@ -1,3 +1,5 @@
+import firebase from "firebase";
+
 export default {
   addNew(context) {
     context.commit("addNew");
@@ -25,5 +27,30 @@ export default {
       context.commit("logout");
       resolve();
     });
+  },
+  save({ commit, getters }) {
+    var newTableKey;
+    if (getters.tableId == null) {
+      newTableKey = firebase
+        .database()
+        .ref()
+        .child("tables")
+        .push().key;
+      commit("save", newTableKey);
+    } else {
+      newTableKey = getters.tableId;
+    }
+
+    var updates = {};
+    updates["/tables/" + newTableKey] = {
+      reportMatrix: getters.reportMatrix,
+      userid: "abcdef",
+      createdAt: "2021-03-01T19:03:03",
+      name: "Mikulás kupa",
+    };
+    firebase
+      .database()
+      .ref()
+      .update(updates);
   },
 };

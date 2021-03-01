@@ -40,6 +40,9 @@ export default {
   logout(state) {
     state.authenticated = false;
   },
+  save(state, tableKey) {
+    state.tableId = tableKey;
+  }
 };
 
 function randomName() {

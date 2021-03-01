@@ -24,6 +24,7 @@
         </ul>
         <template v-if="isAuthenticated()"
           ><button class="btn btn-warning" @click="logout()">Kilépés</button>
+          <button class="btn btn-info" @click="save()">Mentés</button>
         </template>
 
         <template v-else>
@@ -49,6 +50,9 @@ export default {
     });
   },
   methods: {
+    save: function () {
+      this.$store.dispatch('save');
+    },
     login: function () {
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase

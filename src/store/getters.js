@@ -1,4 +1,10 @@
 export default {
+  tableId: (state) => {
+    return state.tableId;
+  },
+  reportMatrix: (state) => {
+    return state.reportMatrix;
+  },
   authenticated: (state) => {
     return state.authenticated;
   },

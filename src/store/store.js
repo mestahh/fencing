@@ -8,6 +8,7 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
+    tableId: null,
     reportMatrix: [["Imre Géza", "n/a"]],
     victoryScore: 5,
     authenticated: false
