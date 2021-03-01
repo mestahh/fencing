@@ -20,17 +20,16 @@
             <a class="nav-link" href="#">Archív <span class="sr-only">(current)</span></a>
           </li>
         </ul>
-         <v-facebook-login
-          app-id="221959249617433"
-          @login="login($event)"
-          @logout="logout()"
-          v-model="model"
-        >
-          <span slot="login">Belépés a Facebookkal</span>
-          <span slot="logout">Kilépés</span>
-        </v-facebook-login>
+        <template v-if="isAuthenticated()"
+          ><button class="btn btn-warning" @click="logout()">Sign out</button>
+        </template>
+
+        <template v-else>
+          <button class="btn btn-primary" @click="login()">Sign in with Google</button>
+        </template>
       </div>
     </nav>
+    <div>{{ this.$store.state.authenticated }}</div>
     <ReportTable></ReportTable>
     <div class="row">
       <div class="col mt-2">
@@ -38,6 +37,7 @@
         <button class="btn btn-primary mb-5 mr-2" @click="generateLink()">
           Link generálása
         </button>
+        <button class="btn btn-primary mb-5 mr-2" @click="save()">Mentés</button>
       </div>
     </div>
     <div class="row mb-3">
@@ -74,14 +74,12 @@
         </p>
       </div>
     </div>
-    {{ model }}
   </div>
 </template>
 
 <script>
 import ReportTable from "./components/ReportTable.vue";
-
-import VFacebookLogin from "vue-facebook-login-component";
+import firebase from "firebase";
 
 var codec = require("json-url")("lzw");
 
@@ -89,15 +87,24 @@ export default {
   name: "App",
   components: {
     ReportTable,
-    VFacebookLogin,
   },
   data: function () {
     return {
-      model: {},
       link: "",
     };
   },
   created: function () {
+    let selfClass = this;
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        selfClass.login();
+      } else {
+        selfClass.logout();
+      }
+    });
+    if (firebase.auth().currentUser) {
+      this.$store.dispatch("login");
+    }
     let uri = window.location.search.substring(1);
     let params = new URLSearchParams(uri);
     var matrix = params.get("matrix");
@@ -112,7 +119,6 @@ export default {
       });
     }
     this.$store.dispatch("updateVictoryScore", victoryScore);
-    
   },
   computed: {
     victoryScore: {
@@ -132,6 +138,11 @@ export default {
     },
   },
   methods: {
+    save: function () {
+
+        var defaultDatabase = firebase.database().ref;
+
+    },
     generateLink: function () {
       codec
         .compress(this.$store.state.reportMatrix)
@@ -146,7 +157,17 @@ export default {
     },
     login: function (event) {
       console.log(event);
-      this.$store.dispatch("login");
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then((result) => {
+          console.log(result);
+          this.$store.dispatch("login");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     logout: function () {
       this.$store.dispatch("logout");
@@ -160,7 +181,7 @@ export default {
     },
     deleteRow: function (index) {
       this.$store.dispatch("delete", index);
-    }
+    },
   },
 };
 </script>
