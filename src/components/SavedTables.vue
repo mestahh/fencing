@@ -36,15 +36,19 @@ export default {
     };
   },
   created: function () {
-    var database = firebase.database();
-    var savedTables = database
-      .ref("tables/")
-      .orderByChild("userid")
-      .equalTo("balazs.mester@gmail.com");
-    savedTables.on("value", (data) => {
-      data.forEach((v) => {
-        this.tables.push(v.val());
-      });
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        var savedTables = firebase.database()
+          .ref("tables/")
+          .orderByChild("userid")
+          .equalTo(user.email);
+        savedTables.on("value", (data) => {
+          data.forEach((v) => {
+            console.log(v);
+            this.tables.push({...v.val(), key: v.ref_.key});
+          });
+        });
+      }
     });
   },
   methods: {
@@ -53,8 +57,12 @@ export default {
         if (t.key === key) {
           this.$store.state.reportMatrix = t.reportMatrix;
           this.$store.state.tableId = t.key;
+          this.$store.state.name = t.name;
         }
       });
+      if (this.$route.path != "/") {
+        this.$router.push("/");
+      }
     },
   },
 };

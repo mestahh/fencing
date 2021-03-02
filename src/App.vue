@@ -22,13 +22,18 @@
             >
           </li>
         </ul>
-        <template v-if="isAuthenticated()"
-          ><button class="btn btn-warning" @click="logout()">Kilépés</button>
-          <button class="btn btn-info" @click="save()">Mentés</button>
+        <template v-if="isAuthenticated()">
+          <img class="userPhoto mr-2" :src="user.photoURL" />
+          <button class="btn btn-warning" @click="logout()">Kilépés</button>
         </template>
 
         <template v-else>
-          <button class="btn btn-primary" @click="login()">Belépés a Google-lal</button>
+          <button class="btn btn-primary mr-2" @click="login()">
+            Belépés a Google-lal
+          </button>
+          <!-- <button class="btn btn-primary mr-2" @click="facebookLogin()">
+            Belépés a Facebook-kal
+          </button> -->
         </template>
       </div>
     </nav>
@@ -40,9 +45,15 @@
 import firebase from "firebase";
 
 export default {
+  data: function () {
+    return {
+      user: null,
+    };
+  },
   created: function () {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        this.user = user;
         this.$store.dispatch("login");
       } else {
         this.$store.dispatch("logout");
@@ -50,11 +61,21 @@ export default {
     });
   },
   methods: {
-    save: function () {
-      this.$store.dispatch('save');
-    },
     login: function () {
       const provider = new firebase.auth.GoogleAuthProvider();
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then((result) => {
+          this.user = result.user;
+          this.$store.dispatch("login");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    facebookLogin: function () {
+      const provider = new firebase.auth.FacebookAuthProvider();
       firebase
         .auth()
         .signInWithPopup(provider)
@@ -68,11 +89,20 @@ export default {
     },
     logout: function () {
       this.$store.dispatch("logout");
+      if (this.$route.path != "/") {
+        this.$router.push("/");
+      }
     },
     isAuthenticated: function () {
-      console.log(this.$store.getters.authenticated);
       return this.$store.getters.authenticated;
     },
   },
 };
 </script>
+<style scoped>
+.userPhoto {
+  max-width: 40px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 15px #acacac;
+}
+</style>

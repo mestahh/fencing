@@ -1,10 +1,11 @@
 import Vue from "vue";
 import App from "./App.vue";
-import MainPage from "./components/MainPage.vue";
-import SavedTables from "./components/SavedTables.vue";
+import { router } from './router/router.js';
 import { store } from './store/store.js';
 import firebase from 'firebase';
 import VueRouter from 'vue-router';
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
 let config = {
   apiKey: "AIzaSyBkDE0ql4QIKnt8oNXo9ugDGSA8SZrQusw",
@@ -17,15 +18,10 @@ let config = {
 };
 
 firebase.initializeApp(config);
+firebase.auth().languageCode = 'hu';
 
-const router = new VueRouter({
-  mode: 'history',
-  routes: [
-    { path: "", component: MainPage },
-    { path: "/tables", component: SavedTables }
-  ]
-});
 
+Vue.use(VueToast);
 Vue.use(VueRouter);
 Vue.config.productionTip = false;
 Vue.directive("uppercase", {

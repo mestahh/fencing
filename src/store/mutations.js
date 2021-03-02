@@ -42,6 +42,9 @@ export default {
   },
   save(state, tableKey) {
     state.tableId = tableKey;
+  },
+  changeName(state, name) {
+    state.name = name;
   }
 };
 

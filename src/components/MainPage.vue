@@ -7,6 +7,9 @@
         <button class="btn btn-primary mb-5 mr-2" @click="generateLink()">
           Link generálása
         </button>
+        <template v-if="isAuthenticated">
+          <button class="btn btn-info mb-5 mr-2" @click="save()">Mentés</button>
+        </template>
       </div>
     </div>
     <div class="row mb-3">
@@ -64,7 +67,6 @@ export default {
     let params = new URLSearchParams(uri);
     var matrix = params.get("matrix");
     var victoryScore = params.get("victoryScore");
-    console.log(victoryScore);
     if (victoryScore == null) {
       victoryScore = 5;
     }
@@ -76,6 +78,9 @@ export default {
     this.$store.dispatch("updateVictoryScore", victoryScore);
   },
   computed: {
+    name: function() {
+      return this.$store.getters.name;
+    }, 
     victoryScore: {
       get() {
         var score = this.$store.getters.victoryScore;
@@ -91,8 +96,15 @@ export default {
     orderedMatrix: function () {
       return this.$store.getters.orderedMatrix;
     },
+    isAuthenticated: function () {
+      return this.$store.state.authenticated;
+    },
   },
   methods: {
+    save: function () {
+      this.$store.dispatch("save");
+      this.$toast.open('Elmentve!');
+    },
     generateLink: function () {
       codec
         .compress(this.$store.state.reportMatrix)
@@ -125,4 +137,3 @@ export default {
   margin-top: 60px;
 }
 </style>
-

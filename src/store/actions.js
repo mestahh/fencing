@@ -16,6 +16,9 @@ export default {
   updateReportMatrix(context, payload) {
     context.commit("updateReportMatrix", payload);
   },
+  changeName(context, payload) {
+    context.commit('changeName', payload);
+  },
   login(context) {
     return new Promise((resolve) => {
       context.commit("login");
@@ -23,10 +26,12 @@ export default {
     });
   },
   logout(context) {
+    firebase.auth().signOut();
     return new Promise((resolve) => {
       context.commit("logout");
       resolve();
     });
+
   },
   save({ commit, getters }) {
     var newTableKey;
@@ -45,8 +50,8 @@ export default {
     updates["/tables/" + newTableKey] = {
       reportMatrix: getters.reportMatrix,
       userid: userId,
-      createdAt: "2021-03-01T19:03:03",
-      name: "Mikulás kupa",
+      createdAt: new Date().toISOString(),
+      name: 'verseny_' + new Date().toISOString(),
     };
     firebase
       .database()

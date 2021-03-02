@@ -1,4 +1,7 @@
 export default {
+  name: (state) => {
+    return state.name;
+  }, 
   tableId: (state) => {
     return state.tableId;
   },

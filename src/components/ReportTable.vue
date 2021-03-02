@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col">
-      <h1 class="text-center">Jegyzőkönyv</h1>
+      <!-- <h1 class="text-center">{{ this.$store.getters.name }}</h1> -->
       <div class="table-responsive">
         <table class="table caption-top mt-5 table-striped table-bordered table-hover">
           <thead class="thead-dark">
